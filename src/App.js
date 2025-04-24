@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import HotelList from './pages/HotelDetail';
+import Checkout from './pages/Checkout';
+import AffiliatorPage from './pages/AffiliatorPage';
+const App = () => {
+  const { user } = useAuth();
 
-function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="/hotels" element={<HotelList />} />
+      <Route path="/checkout/:hotelId" element={<Checkout />} />
+      <Route path="/affiliator" element={<AffiliatorPage />} />
+    </Routes>
   );
-}
+};
 
 export default App;
