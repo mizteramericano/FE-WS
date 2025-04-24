@@ -1,7 +1,7 @@
 import React, {useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
-const HotelList = () => {
+const HotelDetail= () => {
   const { user } = useAuth();
   const [hotels] = useState([]);
 
@@ -40,4 +40,4 @@ const HotelList = () => {
   );
 };
 
-export default HotelList;
+export default HotelDetail;
