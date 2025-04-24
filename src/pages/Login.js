@@ -10,23 +10,27 @@ const Login = () => {
   const navigate = useNavigate();
 
   // mock login แบบง่าย
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    // จำลองการ login
-    const mockUser = {
-      a: { name: 'Alice', role: 'user', token: 'abc123' },
-      b: { name: 'Bob', role: 'affiliate', token: 'xyz456' },
-      c: { name: 'Carol', role: 'affiliator', token: 'def789' },
-    };
-
-    const userData = mockUser[username];
-
-    if (userData && password === '1234') {
-      login(userData);
-      navigate('/hotels');
-    } else {
-      alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+  
+    try {
+      const res = await fetch("http://localhost:8080/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: username, password })
+      });
+  
+      if (!res.ok) {
+        alert("Login failed");
+        return;
+      }
+  
+      const data = await res.json();
+      login({ token: data.token, role: data.role, email: username }); // 👈 ส่งเข้า context
+      navigate("/hotels");
+    } catch (err) {
+      console.error(err);
+      alert("Error logging in");
     }
   };
   const goToRegister = () => {
